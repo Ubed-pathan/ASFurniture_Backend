@@ -2,7 +2,9 @@ const contactformdb = require('../model/contactForm');
 
 async function handleContactForm(req, res){
     const formData = req.body;
+    console.log(req.body);
     if(formData.name != null && formData.email != null && formData.gender != null && formData.mobile != null && formData.suggestion != null){
+        console.log(req.body);
         const formDataSaved = await contactformdb.create({
             name : formData.name,
             email : formData.email, 
@@ -12,7 +14,7 @@ async function handleContactForm(req, res){
 
         });
 
-        res.status(201).json({
+        res.status(200).json({
             message: 'Thanks! data stored',
         });
     }

@@ -25,7 +25,7 @@ async function handleUserSignIn(req, res) {
         const token = await userdb.matchPasswordAndGenerateToken(username, password);
         
         return res
-          .cookie('Log', token, { httpOnly: true })  // Secure cookie
+          .cookie('log', token, { httpOnly: true })  // Secure cookie
           .status(200)
           .json({ message: "logged in successfully" });
     } catch (err) {

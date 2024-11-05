@@ -10,6 +10,8 @@ const otherroute = require('./routes/other')
 const dressing_tableroute = require('./routes/dressing_table')
 const userRoute = require('./routes/user');
 const contactForm = require('./routes/contactForm');
+const cookieParser = require('cookie-parser');
+const { checkForAuthenticationCookie } = require("./middlewares/authentication");
 
 
 const app = express();
@@ -23,6 +25,9 @@ app.use(cors({
         credentials: true    
     }))
 
+app.use(cookieParser());
+app.use(checkForAuthenticationCookie("log"));
+
 
 // note if all images in only one folder then use 
 // app.use('/public', express.static(path.resolve('./public')));
@@ -35,6 +40,9 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 mongoose.connect("mongodb://localhost:27017/ASFurniture")
         .then(() => console.log("MongoDB Connected"))
         .catch((err) => console.log(err));
+
+
+
 
 
 app.use("/home", homeroute);
