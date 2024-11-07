@@ -4,7 +4,6 @@ function checkForAuthenticationCookie(cookieName) {
     return (req, res, next) => {
         const tokenCookieValue = req.cookies[cookieName];
         const excludedRoutes = ['/contactform'];
-
         if (!tokenCookieValue) {
             if (excludedRoutes.includes(req.path)) {
                 return res.status(400).json({message:'Please SingIn first ! then fill the form'}); // Skip authentication check for these routes
