@@ -12,7 +12,7 @@ async function handleInsertDressing_tableData(req, res) {
             price: req.body.price         // Product price
         });
 
-        res.status(201).json({
+        res.status(200).json({
             message: 'Product successfully uploaded and saved!',
             data: savedItem
         });

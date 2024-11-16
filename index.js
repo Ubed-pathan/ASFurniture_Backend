@@ -11,6 +11,7 @@ const dressing_tableroute = require('./routes/dressing_table')
 const userRoute = require('./routes/user');
 const contactForm = require('./routes/contactForm');
 const cookieParser = require('cookie-parser');
+const addToCart = require('./routes/addToCart')
 const { checkForAuthenticationCookie } = require("./middlewares/authentication");
 
 
@@ -54,6 +55,7 @@ app.use("/dressing_table", dressing_tableroute);
 
 app.use("/user", userRoute);
 app.use("/contactform", contactForm);
+app.use("/addToCart", addToCart)
 
 
 app.listen(PORT, () => console.log(`Server Started at PORT :${PORT}`));

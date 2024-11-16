@@ -23,12 +23,28 @@ const userSchema = new Schema({
     },
     profileImageURL:{
         type:String,
+        default:null,
     },
     role:{
         type:String,
         enum: ["USER", "ADMIN"],
         default:"USER",
-    }
+    },
+    cart: [{
+        productId: {
+            type: Schema.Types.ObjectId,
+            required: true,
+        },
+        productType: { // New field to store the collection type
+            type: String,
+            enum: ['bed', 'counter', 'wardrobe', 'dressing_table', 'home', 'other'],
+            required: true,
+        },
+        quantity: {
+            type: Number,
+            default: 1,
+        },
+    }],
 }, 
     {timestamps: true }
 );
