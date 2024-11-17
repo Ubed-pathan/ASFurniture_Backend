@@ -3,10 +3,10 @@ const dressing_tabledb = require('../model/dressing_table'); // Import the Mongo
 // Middleware to handle form data and file uploads
 async function handleInsertDressing_tableData(req, res) {
     // Save the uploaded product data
-    if (req.body.category.toLowerCase() == "dressing_table") {
+    if (req.body.productType.toLowerCase() == "dressing_table") {
         const savedItem = await dressing_tabledb.create({
-            imageURL: `/public/${req.body.category.toLowerCase()}/${req.file.filename}`, // Save image path
-            category: req.body.category,  // Product category
+            imageURL: `/public/${req.body.productType.toLowerCase()}/${req.file.filename}`, // Save image path
+            productType: req.body.productType,  // Product category
             name: req.body.name,          // Product name
             specification: req.body.specification, // Product specification
             price: req.body.price         // Product price
@@ -28,7 +28,7 @@ async function handleInsertDressing_tableData(req, res) {
 
 async function hadleSendDressing_tableData(req, res){
     try{
-        const dressing_tableData = await dressing_tabledb.find({}, '_id imageURL name specification price');
+        const dressing_tableData = await dressing_tabledb.find({}, '_id productType imageURL name specification price');
         res.status(200).json(dressing_tableData);
     }
     catch(error){

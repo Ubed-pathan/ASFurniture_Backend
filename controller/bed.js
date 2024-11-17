@@ -3,10 +3,10 @@ const beddb = require('../model/bed'); // Import the Mongoose model
 // Middleware to handle form data and file uploads
 async function handleInsertBedData(req, res) {
     // Save the uploaded product data
-    if (req.body.category.toLowerCase() == "bed") {
+    if (req.body.productType.toLowerCase() == "bed") {
         const savedItem = await beddb.create({
-            imageURL: `/public/${req.body.category.toLowerCase()}/${req.file.filename}`, // Save image path
-            category: req.body.category,  // Product category
+            imageURL: `/public/${req.body.productType.toLowerCase()}/${req.file.filename}`, // Save image path
+            productType: req.body.productType,  // Product category
             name: req.body.name,          // Product name
             specification: req.body.specification, // Product specification
             price: req.body.price         // Product price
@@ -29,7 +29,7 @@ async function handleInsertBedData(req, res) {
 
 async function hadleSendBedData(req, res){
     try{
-        const bedData = await beddb.find({}, '_id imageURL name specification price');
+        const bedData = await beddb.find({}, '_id productType imageURL name specification price');
         res.status(200).json(bedData);
     }
     catch(error){

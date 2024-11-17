@@ -28,13 +28,13 @@ async function handleUserSignIn(req, res) {
 
         // Get the user data after generating the token
         const userData = await userdb.findOne({ username: username }).exec(); // Use `_id` instead of `_Id`
+        const roles = userData.role
         // Check if user data exists and extract profile image URL
         const profileImage = userData ? userData.profileImageURL : null;
-
         return res
             .cookie('log', token, { httpOnly: true })
             .status(200)
-            .json({ message: "Logged in successfully", token, username, profileImage });
+            .json({ message: "Logged in successfully", token, username, profileImage, roles });
     } catch (err) {
         console.error("Error during sign-in:", err);
         return res.status(400).json({ message: "Incorrect username or password" });
@@ -133,6 +133,30 @@ async function returnProfileImage(req, res) {
     }
 }
 
+async function provideUserRoles(req, res) {
+    const user = req.user;
+    if (!user) {
+        return res.status(404).json({ message: "Not a valid user" });
+    }
+
+    const userId = new mongoose.Types.ObjectId(user._id);
+
+    try {
+        // Corrected query with _id filter
+        const userData = await userdb.findOne({ _id: userId }).exec();
+        const roles = userData.role
+        // Check if user data exists
+        if (userData && userData.role) {
+            return res.status(200).json({ roles });
+        } else {
+            return res.status(404).json({ message: "Profile image not found" });
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        return res.status(500).json({ message: "Server error. Please try again." });
+    }
+    
+}
 
 
 module.exports = {
@@ -141,4 +165,5 @@ module.exports = {
     handleUserLogout,
     handleProfileImage,
     returnProfileImage,
+    provideUserRoles,
 };

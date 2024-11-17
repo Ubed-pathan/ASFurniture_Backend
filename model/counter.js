@@ -6,7 +6,7 @@ const counterSchema = new Schema({
         type:String,
         required:true,
     },
-    category :{
+    productType :{
         type:String, 
         required:true,
     },

@@ -7,10 +7,11 @@ const homedb = require('../model/home'); // Import the Mongoose model
 // Middleware to handle form data and file uploads
 async function handleInsertHomeData(req, res) {
     // Save the uploaded product data
-    if (req.body.category.toLowerCase() == "home") {
+
+    if (req.body.productType.toLowerCase() == "home") {
         const savedItem = await homedb.create({
-            imageURL: `/public/${req.body.category.toLowerCase()}/${req.file.filename}`, // Save image path
-            category: req.body.category,  // Product category
+            imageURL: `/public/${req.body.productType.toLowerCase()}/${req.file.filename}`, // Save image path
+            productType: req.body.productType,  // Product category
             name: req.body.name,          // Product name
             specification: req.body.specification, // Product specification
             price: req.body.price         // Product price
@@ -32,7 +33,7 @@ async function handleInsertHomeData(req, res) {
 
 async function hadleSendHomeData(req, res){
     try{
-        const homeData = await homedb.find({}, '_id imageURL name specification price');
+        const homeData = await homedb.find({}, '_id productType imageURL name specification price');
         res.status(200).json(homeData);
     }
     catch(error){

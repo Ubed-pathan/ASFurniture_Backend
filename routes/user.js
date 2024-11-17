@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
-const { handleUserSignUp, handleUserSignIn, handleUserLogout, handleProfileImage, returnProfileImage} = require('../controller/user'); 
+const { handleUserSignUp, handleUserSignIn, handleUserLogout, handleProfileImage, returnProfileImage, provideUserRoles} = require('../controller/user'); 
 
 // Multer storage configuration
 const storage = multer.diskStorage({
@@ -24,6 +24,7 @@ router.post('/profileImage', upload.single('profileImageURL'), handleProfileImag
 router.post("/signup", handleUserSignUp);
 router.post("/signin", handleUserSignIn);
 router.get("/logout", handleUserLogout);
-router.get("/profileImage", returnProfileImage)
+router.get("/profileImage", returnProfileImage);
+router.get("/roles", provideUserRoles);
 
 module.exports = router;
