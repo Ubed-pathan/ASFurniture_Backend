@@ -9,6 +9,9 @@ const dressing_tabledb = require('../model/dressing_table');
 
 
 async function handleAddProduct(req, res) {
+    // this req.user mean when request to backend then if is has cookie then app.use(checkForAuthenticationCookie("log")); this 
+    // middleware written in index.js page first it check user has original cookie if yes then it shares actual user data in the form of req.user
+    // this whole process done in backend
     const userTokenData = req.user;
     const { productId, productType } = req.body;
     const userId = new mongoose.Types.ObjectId(userTokenData._id);
@@ -25,17 +28,17 @@ async function handleAddProduct(req, res) {
 
         if (!user.cart) {
             user.cart = [];
-            console.log('user card initialize')
         }
 
         // Check if the product is already in the cart
-        const productIndex = user.cart.findIndex(item => 
-            item.productId.equals(new mongoose.Types.ObjectId(productId)) && 
+        const productIndex = user.cart.findIndex(item =>
+            item.productId.equals(new mongoose.Types.ObjectId(productId)) &&
             item.productType === productType
         );
 
         if (productIndex >= 0) {
             // Product already in cart, update the quantity
+            // cart[productIndex] here it mean finding item index in array
             user.cart[productIndex].quantity += 1;
         } else {
             // Product not in cart, add it
@@ -71,7 +74,11 @@ async function handleAddProduct(req, res) {
 
 async function hadleSendProductToCart(req, res) {
     try {
+        // this req.user mean when request to backend then if is has cookie then app.use(checkForAuthenticationCookie("log")); this 
+        // middleware written in index.js page first it check user has original cookie if yes then it shares actual user data in the form of req.user
+        // this whole process done in backend
         const userTokenData = req.user;
+        // here converting userTokenData.id which is in string to mongo ObjectId
         const userId = new mongoose.Types.ObjectId(userTokenData._id);
         const user = await userdb.findById(userId);
 
@@ -117,7 +124,7 @@ async function deleteItemFromAddToCart(req, res) {
     const userTokenData = req.user;
     const { productId, productType } = req.body;
     const userId = new mongoose.Types.ObjectId(userTokenData._id);
-    
+
     try {
         // Find the user by ID
         const user = await userdb.findById(userId);
@@ -126,8 +133,8 @@ async function deleteItemFromAddToCart(req, res) {
         }
 
         // Find the index of the product in the cart
-        const productIndex = user.cart.findIndex(item => 
-            item.productId.equals(new mongoose.Types.ObjectId(productId)) && 
+        const productIndex = user.cart.findIndex(item =>
+            item.productId.equals(new mongoose.Types.ObjectId(productId)) &&
             item.productType === productType
         );
 
@@ -137,6 +144,15 @@ async function deleteItemFromAddToCart(req, res) {
         }
 
         // Remove the product from the cart
+        // productIndex:
+        // Refers to the index of the item to remove in the user.cart array.
+        // For example, if productIndex = 1, it means the second item in the cart.
+        // 1:
+
+        // This specifies that one item should be removed from the array starting at productIndex.
+        // Result:
+
+        // The item at productIndex is removed from user.cart.
         user.cart.splice(productIndex, 1);
 
         // Save the updated cart

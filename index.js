@@ -1,4 +1,5 @@
 const express = require("express");
+require('dotenv').config();
 const mongoose = require("mongoose");
 const path = require("path");
 const cors = require("cors");
@@ -17,7 +18,7 @@ const { checkForAuthenticationCookie } = require("./middlewares/authentication")
 
 
 const app = express();
-const PORT = 8888;
+const PORT = process.env.PORT || 8888;
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -39,12 +40,18 @@ app.use(checkForAuthenticationCookie("log"));
 // but in this project images in different folder under root folder like so i using this below code
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
-mongoose.connect("mongodb://localhost:27017/ASFurniture")
-        .then(() => console.log("MongoDB Connected"))
-        .catch((err) => console.log(err));
+// mongoose.connect("mongodb://localhost:27017/ASFurniture")
+//         .then(() => console.log("MongoDB Connected"))
+//         .catch((err) => console.log(err));
 
-
-
+const mongoURI = process.env.MONGO_ATLAS_URI || "mongodb://localhost:27017/ASFurniture" ;
+mongoose.connect(mongoURI)
+    .then(() => {
+        console.log("MongoDB Connected");
+    })
+    .catch((err) => {
+        console.log("MongoDB Connection Error: ", err);
+    });
 
 app.use("/home", homeroute);
 app.use("/bed", bedroute);

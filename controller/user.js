@@ -67,6 +67,9 @@ async function handleUserLogout(req, res) {
 }
 
 async function handleProfileImage(req, res) {
+    // this req.user mean when request to backend then if is has cookie then app.use(checkForAuthenticationCookie("log")); this 
+    // middleware written in index.js page first it check user has original cookie if yes then it shares actual user data in the form of req.user
+    // this whole process done in backend
     const user = req.user;
     if (!user) {
         res.status(400).json({ message: "please login first" })
@@ -104,6 +107,9 @@ async function returnProfileImage(req, res) {
     // console.log(req.user);
     // console.log("this is user")
 
+    // this req.user mean when request to backend then if is has cookie then app.use(checkForAuthenticationCookie("log")); this 
+    // middleware written in index.js page first it check user has original cookie if yes then it shares actual user data in the form of req.user
+    // this whole process done in backend
     const user = req.user;
     
     // if (!userdata) {
@@ -134,6 +140,9 @@ async function returnProfileImage(req, res) {
 }
 
 async function provideUserRoles(req, res) {
+    // this req.user mean when request to backend then if is has cookie then app.use(checkForAuthenticationCookie("log")); this 
+    // middleware written in index.js page first it check user has original cookie if yes then it shares actual user data in the form of req.user
+    // this whole process done in backend
     const user = req.user;
     if (!user) {
         return res.status(404).json({ message: "Not a valid user" });
