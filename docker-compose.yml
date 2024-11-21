@@ -1,0 +1,34 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8888:8888"
+    environment:
+      - MONGO_URI=${MONGO_URI}  # Use MONGO_URI from the .env file or environment variable
+      - PORT=${PORT}
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+    env_file:
+      - .env  # Optional: If you want to load variables from a .env file
+
+  mongo:
+    image: mongo:6.0 
+    container_name: mongodb
+    ports:
+      - "0.0.0.0:27017:27017"  # Expose MongoDB port
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - app-network
+
+volumes:
+  mongo_data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge

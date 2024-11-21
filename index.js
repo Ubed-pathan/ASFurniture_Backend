@@ -44,7 +44,8 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 //         .then(() => console.log("MongoDB Connected"))
 //         .catch((err) => console.log(err));
 
-const mongoURI = process.env.MONGO_ATLAS_URI || "mongodb://localhost:27017/ASFurniture" ;
+const mongoURI = process.argv[2] || process.env.MONGO_ATLAS_URI || "mongodb://mongo:27017/ASFurniture";
+console.log("MongoDB URI: hello this is mongodb uri", mongoURI );
 mongoose.connect(mongoURI)
     .then(() => {
         console.log("MongoDB Connected");
@@ -66,5 +67,5 @@ app.use("/contactform", contactForm);
 app.use("/addToCart", addToCart);
 app.use("/deleteProduct", handleDeleteProduct);
 
-
+console.log("MongoDB URI: hello this is mongodb uri", mongoURI );
 app.listen(PORT, () => console.log(`Server Started at PORT :${PORT}`));
